@@ -171,7 +171,25 @@
       
 
 
-        <script src="js/app.js"></script>
+        <script>
+    var url = window.location.href;
+    var swLocation = './sw.js';
+
+
+    if ( navigator.serviceWorker ) {
+
+
+     
+
+
+        navigator.serviceWorker.register( swLocation );
+
+
+        
+
+
+    }
+        </script>
     <script>
    new Vue({
   el: '#wrap_vue',
