@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Colimdo</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/posts.css">
+
+    <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
+
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Android -->
+    <meta name="theme-color" content="#3498db">
+
+    <!-- IOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+
+    <link rel="apple-touch-icon" href="img/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="img/icons/icon-152x152.png">
+
+    <!-- iPhone X (1125px x 2436px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="img/icons-ios/apple-launch-1125x2436.png">
+    <!-- iPhone 8, 7, 6s, 6 (750px x 1334px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="img/icons-ios/apple-launch-750x1334.png">
+    <!-- iPhone 8 Plus, 7 Plus, 6s Plus, 6 Plus (1242px x 2208px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)" href="img/icons-ios/apple-launch-1242x2208.png">
+    <!-- iPhone 5 (640px x 1136px) -->
+    <link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" href="img/icons-ios/apple-launch-640x1136.png">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="apple-mobile-web-app-title" content="Colimdo!">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+        <!-- Titulo -->
+        <div id="wrap_vue">
+
+
+      <header>
+
+            <span id="titulo">
+                <img src="img/icons/logo-colimdo.png" alt="Colimdo" class="logo-colimdo">
+            </span>
+
+             <form  v-on:submit.prevent="handlerSeach">
+                <div class="container-seach">
+                    <div class="seachr">
+                     
+                      <input type="search" name="" v-model="word_seach" />
+                      <button type="submit" name="button">
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+    
+                    </div>
+                    <a href="#" class="container-colindotv" v-on:click.prevent="toggleColimdoTV">
+                      <i class="fa fa-television"></i> 
+                      <span>ColimdoTV</span> </a>
+                  </div>
+             </form>
+      </header>
+        <!-- Fin Titulo
+          Nombre del libro: 
+         -->
+
+
+          <div class="container-posts">
+            <div class="wrapper" id="post_id_item">
+        
+                <div class="contener-aler class_hiden" id="lamina_add_to_home"
+                 v-if="show_install"
+                 v-on:click.prevent="handlercloseInstall"
+                 >
+                    <div class="alert" style="border-color:#007bff">
+                      <div class="header-add-home">
+                          <a href="" id="close_noticias" v-on:click.prevent="handlercloseInstall">
+                          <i class="fa fa-2x fa-times"></i></a>
+                      </div>
+                        <div class="header-intern">
+                            <h1>COLIMDO PWA</h1>
+                        </div>
+                          <div class="content">
+                              <button type="button" class="btn btn-primary btn-lg btn-block"
+                              id="btn_call_home_screen" v-on:click.prevent="hanlerInstallPWA">OBTENER  COLIMDO PWA </button>
+                          </div>
+                         <p style="font-size: 12px; line-height: 12px; padding-top:20px;">
+                          Al obtener esta pwa podrá ver las ultimas 10 noticias sin internet y recivir
+                           notificaciones importantes de colimdo</p>
+                    </div>
+                </div>
+
+                <div class="contener-aler"v-if="erro_internte" v-on:click.prevent="closeMessageInternet">
+                    <div class="alert">
+                        <div class="header-intern">
+                            <h1>Sin internet! <i class="fa fa-plug" ></i></h1>
+                            <a href="#" class="close_btn_nointernet" v-on:click.prevent="closeMessageInternet">
+                              <i class="fa fa-2x fa-times"></i></a>
+                        </div>
+                          <div class="content">
+                              <h4 style="padding-top:10px;color:#000;">
+                                  Puede leer las ultimas 10 noticias mientras te conecta al intenet</h4>
+                          </div>
+                         
+                    </div>
+                </div>
+
+                <div class="contener-aler"v-if="error_busqueda && !erro_internte" v-on:click.prevent="closeToggle">
+                    <div class="alert">
+                          <div class="header" style="display: flex; justify-content: space-between;
+                          justify-items: center; ">
+                              <h1>Búsqueda!</h1>
+                              <a href="#" class="" v-on:click.prevent="closeToggle">
+                                <i class="fa fa-2x fa-times"></i>
+                              </a>
+                          </div>
+                          <h4 style="padding-top:10px;color:#000;">
+                              No encontramos ningún resultado para tu búsqueda.</h4>
+                         
+                    </div>
+                </div>
+
+                <div class="contener-aler"v-if="active_loading && !erro_internte" v-on:click.prevent="closeToggle">
+                    <div class="container-loading">
+                        <div class="loader">
+                        </div>
+                     </div>
+                </div>
+
+                
+                <div class="contener-aler"v-if="colimdo_tv && !erro_internte" v-on:click.prevent="toggleColimdoTVClose">
+                    <div class="colimdotv">
+                          <div class="header-colimdotv">
+                            <h1>Colimdo tv</h1>
+                             <a href="" v-on:click.prevent="toggleColimdoTVClose">
+                               <i class="fa fa-times" aria-hidden="true"></i></a>
+                          </div>
+                          <div class="contenedor">
+                              <iframe width="100%" height="315" src="https://www.youtube.com/embed/EcreCR7AsxA" 
+                              frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                          </div>
+                     </div>
+                </div>
+                
+
+                
+                  <cardpost v-for="( _post ,index) in posts"  :post="_post" :key="index">
+                  </cardpost>
+
+                   
+                  <div class="btn-show-more">
+                    <button type="button" class="btn btn-primary btn-lg btn-block" @click="hanlderShowMore">Ver Más</button>
+                  </div>
+            </div>
+
+          </div>
+</div>
+      
+
+
+        <script src="js/app.js"></script>
+    <script>
+   new Vue({
+  el: '#wrap_vue',
+  watch: {
+    'word_seach': function(wod){
+    this.error_busqueda=false;
+   },
+   'error_busqueda': function(stado){
+     if(stado) this.active_loading=false;
+   }
+  },
+  data(){
+    return {
+      posts: [],
+      error_busqueda: false,
+      show_install: false,
+      active_loading: true,
+      colimdo_tv: false,
+      page: 1,
+      erro_internte: false,
+      word_seach: undefined,
+      deferredPrompt : undefined
+    }
+  },
+  methods: {
+    hanlderShowMore(){
+
+      this.page =this.page + 1;
+      console.log(this.page)
+      this.getPosts(this.page);
+      this.word_seach=undefined;
+
+    },
+    closeToggle(){
+      this.error_busqueda =false;
+      this.active_loading =false;
+    },
+    closeMessageInternet(){
+      this.erro_internte=false;
+    },
+    
+    toggleColimdoTV(){
+      this.handlerEstatusOnline();
+      this.colimdo_tv=!this.colimdo_tv;
+    },
+    toggleColimdoTVClose(){
+      this.colimdo_tv=false;
+      window.location.href = "./";
+    },
+    handlerEstatusOnline(){
+        if (!navigator.onLine) {
+          this.erro_internte=true;
+          return false;
+        } 
+    },
+    handlercloseInstall(){
+      this.show_install=false;
+      this.deferredPrompt = null;
+      return false;
+    },
+    handlerSeach(){
+      this.handlerEstatusOnline();
+      let word = this.word_seach;
+     this.active_loading =true;
+      let _this =this;
+      console.log("loading")
+      axios.get(`https://colimdo.org/wp-json/wp/v2/posts?search=${word}&_embed&page=${parseInt(1)}&per_page=8&filter[category_name]=noticias`)
+      .then(function(req){
+        if(req.data.length>0){
+          _this.active_loading=false;
+          _this.posts=req.data.filter(function(post){
+
+          try {
+            post.thumbnail =post._embedded['wp:featuredmedia'][0].source_url || "https://kbimages.dreamhosters.com/images/Site_Not_Found_Dreambot.fw.png";
+            return post;
+          } catch (e) {
+
+          }
+
+        });
+         
+        }else{
+         _this.error_busqueda=true;
+         _this.active_loading =true;
+         return false;
+        }
+        
+        
+
+      }).catch(function(error){
+        console.log(error)
+      })
+    },
+    hanlerInstallPWA(){
+      let self=this;
+      this.show_install=false;
+      this.deferredPrompt.prompt();
+
+      this.deferredPrompt.userChoice
+     .then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      } else {
+        console.log('User dismissed the A2HS prompt');
+      }
+      self.deferredPrompt = null;
+      
+
+    });
+    },
+    getPosts(page=1){
+      this.handlerEstatusOnline();
+      this.active_loading =true;
+      let _this =this;
+      axios.get("https://colimdo.org/wp-json/wp/v2/posts?_embed&page="+parseInt(page)+"&per_page=8&filter[category_name]=noticias")
+      .then(function(req){
+        if(req.data.length>0){
+          _this.active_loading=false;
+          _this.posts=req.data.filter(function(post){
+
+          try {
+            post.thumbnail =post._embedded['wp:featuredmedia'][0].source_url || "https://kbimages.dreamhosters.com/images/Site_Not_Found_Dreambot.fw.png";
+            return post;
+          } catch (e) {
+
+          }
+
+        });
+         
+        }else{
+         _this.error_busqueda=true;
+         _this.active_loading =true;
+         return false;
+        }
+
+      }).catch(function(error){
+        console.log(error)
+      })
+    }
+
+  },
+  mounted(){
+    this.getPosts();
+    //navegador
+    let self=this;
+    
+ 
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Prevent Chrome 67 and earlier from automatically showing the prompt;
+      setTimeout(function(){
+        self.show_install=true;
+      },3000);
+
+      e.preventDefault();
+      // Stash the event so it can be triggered later.
+      self.deferredPrompt = e;
+    });
+
+
+/*
+btnAdd.addEventListener('click', (e) => {
+  // hide our user interface that shows our A2HS button
+  laminaAddHome.style.display = 'none';
+  // Show the prompt
+  deferredPrompt.prompt();
+  // Wait for the user to respond to the prompt
+  deferredPrompt.userChoice
+    .then((choiceResult) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('User accepted the A2HS prompt');
+      } else {
+        console.log('User dismissed the A2HS prompt');
+      }
+      deferredPrompt = null;
+    });
+});
+*/
+  }
+});
+
+//
+
+
+Vue.component("cardpost",{
+  template: `  <div class="card radius shadowDepth1">
+      <div class="card__image border-tlr-radius">
+        <img :src="post.thumbnail" alt="image" class="border-tlr-radius">
+            </div>
+
+      <div class="card__content card__padding">
+                <div class="card__share">
+                    <div :class="{'card__social': true, 'card__social--active': active_share}">
+                        <a class="share-icon facebook" :href="'https://www.facebook.com/sharer/sharer.php?u='+post.link"><span class="fa fa-facebook"></span></a>
+                        <a class="share-icon twitter" :href="'https://twitter.com/intent/tweet?url='+post.link" ><span class="fa fa-twitter"></span></a>
+                        <a class="share-icon googleplus" :href="'https://plus.google.com/share?url='+post.link"><span class="fa fa-google-plus"></span></a>
+                    </div>
+
+                    <a id="share" class="share-toggle share-icon" href="#" v-on:click.prevent="handlerToggleShare"></a>
+                </div>
+
+        <div class="card__meta">
+          <a>Nacionales</a>
+            <time>{{post.date}}</time>
+        </div>
+
+        <article class="card__article">
+          <h2><a href="#">{{post.title.rendered}}</a></h2>
+            <div class="content-text" v-html="post.content.rendered" v-if="showdetaill"> </div>
+            <a href="" v-on:click.prevent="handlerToggle" v-if="!showdetaill"> Ver Más</a>
+            <a href="" v-on:click.prevent="handlerToggle" v-if="showdetaill"> Ver Menos</a>
+        </article>
+      </div>
+
+      <div class="card__action">
+
+      </div>
+  </div>`,
+  props: {
+     post: Object,
+  },
+  data(){
+    return {
+      showdetaill: false,
+      active_share: false,
+    }
+  },
+  methods:{
+    handlerToggle(){
+      this.showdetaill =!this.showdetaill;
+    }
+    ,
+    handlerToggleShare(){
+      this.active_share =!this.active_share;
+    }
+  },
+})
+
+  </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140687205-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-140687205-1');
+</script>
+</body>
+</html>
